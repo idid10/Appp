@@ -15,6 +15,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor stepCountSensor;
     TextView tvStepCount;
+    TextView stopCount;
+    private TextView stepcount;
+    private int step_count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tvStepCount = (TextView)findViewById(R.id.tvStepCount);
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         stepCountSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        stepcount = (TextView)findViewById(R.id. count);
+
         if(stepCountSensor == null) {
             Toast.makeText(this, "No Step Detect Sensor", Toast.LENGTH_SHORT).show();
         }
@@ -32,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, stepCountSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, stepCountSensor, sensorManager.SENSOR_DELAY_NORMAL);
+        step_count++;
     }
 
     @Override
@@ -44,7 +50,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-            tvStepCount.setText("Step Count : " + String.valueOf(event.values[0]));
+            //tvStepCount.setText("Step Count : " + String.valueOf(event.values[0]));
+            stepcount.setText(""+step_count+"");
         }
     }
 
